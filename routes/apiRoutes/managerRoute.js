@@ -3,13 +3,13 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
-// originally app.get('/api/departments')
-router.get('/departments', (req, res) => {
-    const sql = `SELECT departments.*, parties.name 
+// originally app.get('/api/managers')
+router.get('/managers', (req, res) => {
+    const sql = `SELECT managers.*, parties.name 
     AS party_name 
-    FROM departments 
+    FROM managers 
     LEFT JOIN parties 
-    ON departments.party_id = parties.id`;
+    ON managers.party_id = parties.id`;
 
     db.query(sql, (err, rows) => {
         if (err) {
@@ -23,14 +23,14 @@ router.get('/departments', (req, res) => {
     });
 });
 
-// originally app.get('/api/candidate/:id')
-router.get('/candidate/:id', (req, res) => {
-    const sql = `SELECT departments.*, parties.name 
+// originally app.get('/api/manager/:id')
+router.get('/manager/:id', (req, res) => {
+    const sql = `SELECT managers.*, parties.name 
     AS party_name 
-    FROM departments 
+    FROM managers 
     LEFT JOIN parties 
-    ON departments.party_id = parties.id 
-    WHERE departments.id = ?`;
+    ON managers.party_id = parties.id 
+    WHERE managers.id = ?`;
 
     const params = [req.params.id];
 
@@ -46,20 +46,19 @@ router.get('/candidate/:id', (req, res) => {
     });
 });
 
-// originally app.post('/api/department')
-router.post('/department', ({ body }, res) => {
+// originally app.post('/api/manager')
+router.post('/manager', ({ body }, res) => {
     const errors = inputCheck(
         body,
         'first_name',
-        'last_name',
-        'industry_connected'
+        'last_name'
     );
     if (errors) {
         res.status(400).json({ error: errors });
         return;
     }
 
-    const sql = `INSERT INTO departments (first_name, last_name, industry_connected)
+    const sql = `INSERT INTO managers (first_name, last_name)
         VALUES (?,?,?)`;
     const params = [body.first_name, body.last_name, body.industry_connected];
 
@@ -75,15 +74,15 @@ router.post('/department', ({ body }, res) => {
     });
 });
 
-// originally app.put('/api/department/:id')
-router.put('/department/:id', (req, res) => {
-    const errors = inputCheck(req.body, 'party_id');
+// originally app.put('/api/manager/:id')
+router.put('/manager/:id', (req, res) => {
+    const errors = inputCheck(req.body, 'employee_id');
 
     if (errors) {
         res.status(400).json({ error: errors });
         return;
     }
-    const sql = `UPDATE departments SET party_id = ? 
+    const sql = `UPDATE managers SET employee_id = ? 
                    WHERE id = ?`;
     const params = [req.body.party_id, req.params.id];
     db.query(sql, params, (err, result) => {
@@ -92,7 +91,7 @@ router.put('/department/:id', (req, res) => {
             // check if a record was found
         } else if (!result.affectedRows) {
             res.json({
-                message: 'Candidate not found'
+                message: 'Manager not found'
             });
         } else {
             res.json({
@@ -104,9 +103,9 @@ router.put('/department/:id', (req, res) => {
     });
 });
 
-// originally app.delete('/api/candidate/:id')
-router.delete('/candidate/:id', (req, res) => {
-    const sql = `DELETE FROM departments WHERE id = ?`;
+// originally app.delete('/api/manager/:id')
+router.delete('/manager/:id', (req, res) => {
+    const sql = `DELETE FROM managers WHERE id = ?`;
     const params = [req.params.id];
 
     db.query(sql, params, (err, result) => {
@@ -114,7 +113,7 @@ router.delete('/candidate/:id', (req, res) => {
             res.statusMessage(400).json({ error: res.message });
         } else if (!result.affectedRows) {
             res.json({
-                message: 'Candidate not found'
+                message: 'Manager not found'
             });
         } else {
             res.json({

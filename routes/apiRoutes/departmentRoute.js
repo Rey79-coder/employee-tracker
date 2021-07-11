@@ -3,13 +3,13 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
-// originally app.get('/api/employees')
-router.get('/employees', (req, res) => {
-    const sql = `SELECT employees.*, parties.name 
+// originally app.get('/api/departments')
+router.get('/departments', (req, res) => {
+    const sql = `SELECT departments.*, department.name 
     AS party_name 
-    FROM employees
-    LEFT JOIN parties 
-    ON employees.party_id = parties.id`;
+    FROM departments 
+    LEFT JOIN department 
+    ON departments.party_id = department.id`;
 
     db.query(sql, (err, rows) => {
         if (err) {
@@ -23,14 +23,14 @@ router.get('/employees', (req, res) => {
     });
 });
 
-// originally app.get('/api/employee/:id')
-router.get('/employee/:id', (req, res) => {
-    const sql = `SELECT employees.*, parties.name 
+// originally app.get('/api/candidate/:id')
+router.get('/department/:id', (req, res) => {
+    const sql = `SELECT departments.*, department.name 
     AS party_name 
-    FROM employees 
-    LEFT JOIN parties 
-    ON employees.party_id = parties.id 
-    WHERE employees.id = ?`;
+    FROM department
+    LEFT JOIN department
+    ON departments.party_id = department.id 
+    WHERE departments.id = ?`;
 
     const params = [req.params.id];
 
@@ -46,22 +46,21 @@ router.get('/employee/:id', (req, res) => {
     });
 });
 
-// originally app.post('/api/employee')
-router.post('/employee', ({ body }, res) => {
+// originally app.post('/api/department')
+router.post('/department', ({ body }, res) => {
     const errors = inputCheck(
         body,
-        'first_name',
-        'last_name',
-        'industry_connected'
+        'id',
+        'name'
     );
     if (errors) {
         res.status(400).json({ error: errors });
         return;
     }
 
-    const sql = `INSERT INTO employees (first_name, last_name, industry_connected)
+    const sql = `INSERT INTO departments (id, name)
         VALUES (?,?,?)`;
-    const params = [body.first_name, body.last_name, body.industry_connected];
+    const params = [body.id, body.name];
 
     db.query(sql, params, (err, result) => {
         if (err) {
@@ -75,24 +74,24 @@ router.post('/employee', ({ body }, res) => {
     });
 });
 
-// originally app.put('/api/employee/:id')
-router.put('/employee/:id', (req, res) => {
-    const errors = inputCheck(req.body, 'party_id');
+// originally app.put('/api/department/:id')
+router.put('/department/:id', (req, res) => {
+    const errors = inputCheck(req.body, 'department_id');
 
     if (errors) {
         res.status(400).json({ error: errors });
         return;
     }
-    const sql = `UPDATE employees SET party_id = ? 
+    const sql = `UPDATE departments SET department_id = ? 
                    WHERE id = ?`;
-    const params = [req.body.party_id, req.params.id];
+    const params = [req.body.department_id, req.params.id];
     db.query(sql, params, (err, result) => {
         if (err) {
             res.status(400).json({ error: err.message });
             // check if a record was found
         } else if (!result.affectedRows) {
             res.json({
-                message: 'Employee not found'
+                message: 'Candidate not found'
             });
         } else {
             res.json({
@@ -104,9 +103,9 @@ router.put('/employee/:id', (req, res) => {
     });
 });
 
-// originally app.delete('/api/employee/:id')
-router.delete('/employee/:id', (req, res) => {
-    const sql = `DELETE FROM employees WHERE id = ?`;
+// originally app.delete('/api/candidate/:id')
+router.delete('/candidate/:id', (req, res) => {
+    const sql = `DELETE FROM departments WHERE id = ?`;
     const params = [req.params.id];
 
     db.query(sql, params, (err, result) => {
@@ -114,7 +113,7 @@ router.delete('/employee/:id', (req, res) => {
             res.statusMessage(400).json({ error: res.message });
         } else if (!result.affectedRows) {
             res.json({
-                message: 'Employee not found'
+                message: 'Candidate not found'
             });
         } else {
             res.json({
