@@ -1,0 +1,2 @@
+CREATE DATABASE employee_trackerDB;
+USE employee_trackerDB;
