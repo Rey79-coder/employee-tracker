@@ -36,5 +36,5 @@
 #[Video](https://www.youtube.com/watch?v=uirpXRvib1o)
 
 For illustration purposes here is a snapshot of real live instance:
-#[Images]()
+#[Images](https://github.com/Rey79-coder/employee-tracker/blob/develop/assets/img/database-employees.png)
 
