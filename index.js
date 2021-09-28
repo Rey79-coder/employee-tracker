@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "UCLA@coding1",
-  database: "EmployeeRoster_db"
+  database: "Employees_db"
 });
 
 connection.connect(function (err) {
@@ -93,7 +93,7 @@ function init() {
         break;
 
         case "Remove Department": 
-        removeDepartment();
+        removeDept();
         break;
 
         case "Update Employee Manager": 
@@ -111,7 +111,7 @@ function viewEmployees() {
 const employees = `SELECT employee.id, employee.first_name, employee.last_name, role.title AS role,
 CONCAT(manager.first_name,' ',manager.last_name) AS manager, department.name
 FROM employee
-LEFT JOIN role ON emplotee.role_id = rolde.id
+LEFT JOIN role ON employee.role_id = role.id
 LEFT JOIN department ON role.department_id = department.id
 LEFT JOIN employee manager ON employee.manager_id = manager.id`
 
@@ -208,7 +208,7 @@ function viewEmployeesByManager() {
   })
 };
 
-// Function to add a New Employee
+// TO ADD NEW EMPLOYEE
 function addEmployee() {
   let addNew = `SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, role.title, department.name,
   role.salary, employee.manager_id 
@@ -252,7 +252,7 @@ function addEmployee() {
       })
     };
     
-// Function to Remove Employee
+// TO REMOVE EMPLOYEE
 function removeEmployee() {
   let terminate = `SELECT * FROM employee`
   connection.query(terminate, (err, res) => {
@@ -276,7 +276,7 @@ function removeEmployee() {
   })
 };
 
-// Function to Remove Role
+// TO REMOVE ROLE
 function removeRole() {
   let downsize = `SELECT * FROM role`
   connection.query(downsize, (err, res) => {
@@ -300,7 +300,7 @@ function removeRole() {
   })
 };
 
-// Function to Update Employee Role
+// TO UPDATE EMPLOYEE ROLE
 function updateEmployeeRole() {
   let update = ("SELECT * FROM employee");
   
@@ -368,7 +368,7 @@ function updateEmployeeRole() {
   })
 };
 
-// Function to add a New Role
+// TO ADD NEW ROLE
 function addRole() {
   let newRole = `SELECT * FROM role`
   connection.query(newRole, (err, data) => {
@@ -402,7 +402,7 @@ function addRole() {
     })
   }
   
-  // Function to add New Department
+  // TO ADD NEW DEPARTMENT
   function addDepartment() {
     let newDepartment = `SELECT * FROM department`
     connection.query(newDepartment, (err, res) => {
@@ -427,7 +427,7 @@ function addRole() {
     })
   };
   
-  // Function to Remove Department
+  // TO REMOVE DEPARTMENT
   function removeDept() {
     let dropDept = `SELECT * FROM department`
     connection.query(dropDept, (err, res) => {
@@ -451,7 +451,7 @@ function addRole() {
     })
   };
   
-  // Function to exit the program
+  // TO EXIT PROGRAM
   function quit() {
   const logoTxt = logo({ name: "GoodBye!" }).render();
   console.log(logoTxt);

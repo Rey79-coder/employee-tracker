@@ -1,5 +1,5 @@
 -- Specifies Database
-USE EmployeeRoster_db;
+USE Employees_db;
 
 -- Department
 INSERT INTO department (name) 

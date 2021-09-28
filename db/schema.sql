@@ -1,9 +1,9 @@
--- Drops the EmployeeRoster_db if it already exists
-DROP DATABASE IF EXISTS EmployeeRoster_db;
+-- Drops the EEmployees_db if it already exists
+DROP DATABASE IF EXISTS Employees_db;
 
--- Creates Database EmployeeRoster_db, OK for use.
-CREATE database EmployeeRoster_db;
-USE EmployeeRoster_db;
+-- Creates Database Employees_db, OK for use.
+CREATE database Employees_db;
+USE Employees_db;
 
 -- Department Table Specs
 CREATE TABLE department (
