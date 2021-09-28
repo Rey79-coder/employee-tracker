@@ -33,8 +33,8 @@
    Please reach me out through my email: reyna@echeriri.com.
    Here is a video on how to work the application.
    
-#[Video](https://www.youtube.com/watch?v=uirpXRvib1o)
+#[Video](https://youtu.be/0eFIkvZncSE)
 
 For illustration purposes here is a snapshot of real live instance:
-#[Images](https://github.com/Rey79-coder/employee-tracker/blob/develop/assets/img/database-employees.png)
+#[Images](https://raw.githubusercontent.com/Rey79-coder/employee-tracker/develop/assets/img/employee-manager.png)
 
